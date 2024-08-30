@@ -13,8 +13,8 @@
 
         @using (Html.BeginForm("AlquilerCasa", "Casas"))
         {
+            <label>ID Casa</label>
             <div class="input-group mb-3">
-                <label>ID Casa</label>
                 <select class="form-select" id="casasDisponibles" required onchange="seleccionarCasa()">
                     <option value="">Seleccione una opcion</option>
                     @foreach (Casas item in ViewBag.Casas)
