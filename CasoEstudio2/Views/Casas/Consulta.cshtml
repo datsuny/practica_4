@@ -1,5 +1,39 @@
-﻿@{
+﻿@model List<CasoEstudio2.Entities.Casas>
+
+@{
     ViewData["Title"] = "Consulta";
 }
 
-Consulta
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-center">
+            <h4 class="border border-2 p-2">Consulta</h4>
+        </div>
+
+        <table id="tabla-Carrito" class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Usuario</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.IdCasa</td>
+                        <td>@item.DescripcionCasa</td>
+                        <td>¢ @item.PrecioCasa.ToString("N2")</td>
+                        <td>@(item.UsuarioAlquiler != null ? item.UsuarioAlquiler : "NA")</td>
+                        <td>@(item.UsuarioAlquiler != null ? "Reservada" : "Disponible")</td>
+                        <td>@(item.FechaAlquiler != null ? item.FechaAlquiler.GetValueOrDefault().ToString("dd/MM/yyyy") : "NA")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

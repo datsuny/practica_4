@@ -1,7 +1,7 @@
 USE [master]
 GO
 
--- DROP DATABASE [[CasoEstudioJN]]
+-- DROP DATABASE [CasoEstudioJN]
 -- GO
 
 CREATE DATABASE [CasoEstudioJN]
@@ -25,8 +25,10 @@ CREATE TABLE [dbo].[CasasSistema](
 GO
 
 -- INSERTS.
+
+GO
 INSERT INTO [dbo].[CasasSistema] ([DescripcionCasa], [PrecioCasa], [UsuarioAlquiler], [FechaAlquiler]) 
-	VALUES ('Casa en San Jose', 190000, null, null)
+	VALUES ('Casa en San José', 190000, null, null)
 INSERT INTO [dbo].[CasasSistema] ([DescripcionCasa], [PrecioCasa], [UsuarioAlquiler], [FechaAlquiler]) 
 	VALUES ('Casa en Alajuela', 145000, null, null)
 INSERT INTO [dbo].[CasasSistema] ([DescripcionCasa], [PrecioCasa], [UsuarioAlquiler], [FechaAlquiler]) 
@@ -36,59 +38,50 @@ INSERT INTO [dbo].[CasasSistema] ([DescripcionCasa], [PrecioCasa], [UsuarioAlqui
 INSERT INTO [dbo].[CasasSistema] ([DescripcionCasa], [PrecioCasa], [UsuarioAlquiler], [FechaAlquiler]) 
 	VALUES ('Casa en Guanacaste', 105000, null, null)
 
+GO
+
 -- SP.
---CREATE PROCEDURE [dbo].[ConsultarProductos]
+CREATE PROCEDURE [dbo].[ConsultarCasas]
+AS
+BEGIN
 
---AS
---BEGIN
+	SELECT	IdCasa,
+			DescripcionCasa,
+			PrecioCasa,
+			UsuarioAlquiler,
+			FechaAlquiler
+	  FROM	[dbo].[CasasSistema]
+	  ORDER BY UsuarioAlquiler
 
---	SELECT	CodigoCompra,
---			Descripcion,
---			PrecioUnitario,
---			Saldo,
---			Estado
---	  FROM	dbo.Principal prod
---	  ORDER BY Estado
+END
+GO
 
---END
---GO
+CREATE PROCEDURE [dbo].[ConsultarCasa]
+	@IdCasa BIGINT
+AS
+BEGIN
 
---CREATE PROCEDURE [dbo].[ConsultarProducto]
---	@CodigoCompra INT
---AS
---BEGIN
+	SELECT	IdCasa,
+			DescripcionCasa,
+			PrecioCasa,
+			UsuarioAlquiler,
+			FechaAlquiler
+	  FROM	[dbo].[CasasSistema]
+	  WHERE IdCasa = @IdCasa
 
---	SELECT	CodigoCompra,
---			Descripcion,
---			PrecioUnitario,
---			Saldo,
---			Estado
---	  FROM	dbo.Principal prod
---	  WHERE CodigoCompra = @CodigoCompra
---END
---GO
+END
+GO
 
---CREATE PROCEDURE [dbo].[AbonarMonto]
---	@MontoAbono INT,
---	@CodigoCompraPrincipalID INT
---AS
---BEGIN
-	
---	INSERT	INTO [dbo].[Abonos] (MontoAbono, CodigoCompraPrincipalID) 
---	VALUES (@MontoAbono, @CodigoCompraPrincipalID)
+CREATE PROCEDURE [dbo].[AlquilarCasas]
+	@IdCasa BIGINT,
+	@UsuarioAlquiler VARCHAR(30),
+	@FechaAlquiler DATETIME
+AS
+BEGIN
 
---	UPDATE Principal
---	SET Saldo = Saldo - @MontoAbono,
---	Estado = IIF(Saldo = @MontoAbono, 1, 0)
---	WHERE CodigoCompra = @CodigoCompraPrincipalID
-
---	SELECT	CodigoCompra,
---			Descripcion,
---			PrecioUnitario,
---			Saldo,
---			Estado
---	FROM Principal
---	WHERE CodigoCompra = @CodigoCompraPrincipalID
-
---END
---GO
+	UPDATE [dbo].[CasasSistema]
+	SET UsuarioAlquiler = @UsuarioAlquiler,
+	FechaAlquiler = @FechaAlquiler
+	WHERE IdCasa = @IdCasa
+END
+GO

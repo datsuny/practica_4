@@ -1,5 +1,49 @@
-﻿@{
+﻿@using CasoEstudio2.Entities
+@model CasoEstudio2.Entities.Casas
+
+@{
     ViewData["Title"] = "Alquiler";
 }
 
-Alquiler
+<div class="card">
+    <div class="card-body register-card-body">
+        <div class="d-flex justify-content-center">
+            <h4 class="border border-2 p-2 login-box-msg">Registro</h4>
+        </div>
+
+        @using (Html.BeginForm("AlquilerCasa", "Casas"))
+        {
+            <div class="input-group mb-3">
+                <label>ID Casa</label>
+                <select class="form-select" id="casasDisponibles" required onchange="seleccionarCasa()">
+                    <option value="">Seleccione una opcion</option>
+                    @foreach (Casas item in ViewBag.Casas)
+                    {
+                        <option value="@item.IdCasa">@item.DescripcionCasa</option>
+                    }
+                </select>
+            </div>
+
+            <label>Precio Casa</label>
+            <div class="input-group mb-3">
+                <input class="form-control" readonly id="precioCasa" min="1" required />
+            </div>
+
+            <label>Usuario Alquiler</label>
+            <div class="input-group mb-3">
+                @Html.TextBoxFor(m => m.UsuarioAlquiler, new { @class = "form-control", @required = "true" })
+            </div>
+
+            <div class="row">
+                <div class="col-8">
+                </div>
+                <div class="col-lg-4">
+                    <button type="submit" class="btn btn-primary btn-block">Alquilar</button>
+                </div>
+            </div>
+            @Html.HiddenFor(m => m.IdCasa, new { @required = "true" })
+        }
+    </div>
+</div>
+
+<script src="~/js/Casas.js"></script>   
